@@ -145,8 +145,12 @@ public class Main {
 
         System.out.print("Amount: ");
         int amount = Integer.parseInt(scan.nextLine());
-
-        System.out.println("Deposit " + amount + " rs to account " + loggedInAccountNo);
+        Account account=accountService.deposit(loggedInAccountNo,amount);
+        if(account==null){
+            System.out.println("Could not deposit into account. ");
+        }else{
+            System.out.println("Money successfully deposited into account.");
+        }
 
     }
 
@@ -184,8 +188,16 @@ public class Main {
         Transaction[] transactions = transactionService.getTransactions(loggedInAccountNo);
         if (transactions == null) {
             System.out.println("This feature is not available for mobile");
-        } else {
-            System.out.println("Print account statement for account " + loggedInAccountNo);
+            return;
+        } else if(transactions[0]==null){
+            System.out.println("No transactions exists for you. ");
+            return;
+        }
+        for(Transaction transaction:transactions){
+            if(transaction==null){
+                break;
+            }else
+                System.out.println(transaction);
         }
     }
 
